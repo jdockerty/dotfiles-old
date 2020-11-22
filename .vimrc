@@ -18,6 +18,7 @@ Plugin 'scrooloose/syntastic'
 " Auto pairing of brackets
 Plugin 'jiangmiao/auto-pairs'
 
+" Molokai theme
 Plugin 'tomasr/molokai'
 
 " All of your Plugins must be added before the following line
