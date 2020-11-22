@@ -33,6 +33,13 @@ Plugin 'junegunn/fzf'
 Plugin 'preservim/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
+
+Plugin 'majutsushi/tagbar'                  " Class/module browser
+Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
+
+
+Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -63,9 +70,8 @@ syntax on
 " Set the molokai colour scheme.
 colorscheme molokai
 
-
-
 " Line numbers
+set relativenumber
 set number
 
 " Automatically convert tabs to spaces.
@@ -86,10 +92,11 @@ set history=200
 " Search highlighting
 set hlsearch
 
+set ttyfast
+
 " Ignore case when searching.
 set ignorecase
 " Set vim airline theme
 let g:airline_theme='badwolf'
-
 
 
