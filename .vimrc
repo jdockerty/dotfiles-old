@@ -4,14 +4,12 @@ filetype off                  " required
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
 " Auto completion for various programming langages. Requires compiling via
 " python $HOME/.vim/bundle/YouCompleteMe/install.py
 Plugin 'ycm-core/YouCompleteMe'
-
 " Syntax checker 
 Plugin 'scrooloose/syntastic'
 
@@ -20,6 +18,16 @@ Plugin 'jiangmiao/auto-pairs'
 
 " Molokai theme
 Plugin 'tomasr/molokai'
+
+" Git plugin for simple access, can use :Git <command>
+Plugin 'tpope/vim-fugitive'
+
+" See the current branch and other useful information within a file.
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+" CLI fuzzy finder, can be used with :FZF 
+Plugin 'junegunn/fzf'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -51,3 +59,30 @@ syntax on
 " Set the molokai colour scheme.
 colorscheme molokai
 
+
+
+" Line numbers
+set number
+
+" Automatically convert tabs to spaces.
+set expandtab
+
+" Line wrapping
+set wrap
+
+" Vim command auto complete show as a menu.
+set wildmenu
+
+" Confirmation on save
+set confirm     
+
+" Increase history size
+set history=200
+
+" Search highlighting
+set hlsearch
+
+" Ignore case when searching.
+set ignorecase
+" Set vim airline theme
+let g:airline_theme='badwolf'
