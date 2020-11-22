@@ -29,6 +29,10 @@ Plugin 'vim-airline/vim-airline-themes'
 " CLI fuzzy finder, can be used with :FZF 
 Plugin 'junegunn/fzf'
 
+" Directory explorer and Git plugin for explorer
+Plugin 'preservim/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -86,3 +90,6 @@ set hlsearch
 set ignorecase
 " Set vim airline theme
 let g:airline_theme='badwolf'
+
+
+
