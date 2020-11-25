@@ -37,6 +37,7 @@ Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'majutsushi/tagbar'                  " Class/module browser
 Plugin 'kien/ctrlp.vim'                     " Fast transitions on project files
 
+Plugin 'gabrielelana/vim-markdown'          " Adds simple markdown support for Vim
 
 Plugin 'fisadev/FixedTaskList.vim'          " Pending tasks list
 
@@ -76,9 +77,6 @@ set number
 
 " Automatically convert tabs to spaces.
 set expandtab
-
-" Line wrapping
-set wrap
 
 " Vim command auto complete show as a menu.
 set wildmenu
