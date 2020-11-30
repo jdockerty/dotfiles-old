@@ -1,4 +1,10 @@
 {
-    "workbench.colorTheme": "Abyss",
-    "workbench.iconTheme": "vs-minimal"
+    "files.autoSave": "afterDelay",
+    "go.formatTool": "goimports",
+    "go.autocompleteUnimportedPackages": true,
+    "go.useLanguageServer": true,
+    "window.zoomLevel": -1,
+    "editor.tabCompletion": "on",
+    "workbench.colorTheme": "Material Theme Ocean High Contrast",
+    "workbench.iconTheme": "material-icon-theme"
 }
