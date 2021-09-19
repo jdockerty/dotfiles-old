@@ -12,6 +12,7 @@ cd fonts
 
 goHome
 
-git clone https://github.com/ycm-core/YouCompleteMe
-cd YouCompleteMe
-python $HOME/.vim/bundle/YouCompleteMe/install.py
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
+
+
