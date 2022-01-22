@@ -49,8 +49,9 @@ format = "docker: [🐋 $context](blue bold)"
 disabled = false
 
 [directory]
-truncation_length = 7
+truncation_length = 8
 truncation_symbol = "…/"
+truncate_to_repo = false
 
 [username]
 style_user = "blue bold"
