@@ -68,7 +68,7 @@ ZSH_THEME="agnoster"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git fzf zsh-autosuggestions zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,5 +99,17 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 export PATH="${PATH}:$HOME/go/bin"
+export PATH="${PATH}:/usr/local/go/bin"
+source "${HOME}/.kube-completion"
+export DIGITALOCEAN_TOKEN="69650bf55cbf2072ae48e5110613ebb8b2e2f155dd2e61fbb9a27292bc744c88"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+alias kubectx="kubectl ctx"
+alias kubens="kubectl ns"
+alias k='kubectl'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}
+
+# Replaces Ctrl + R for reverse search.
+eval "$(mcfly init zsh)"
+eval "$(starship init zsh)"
