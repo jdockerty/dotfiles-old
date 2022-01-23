@@ -101,12 +101,16 @@ source $ZSH/oh-my-zsh.sh
 export PATH="${PATH}:$HOME/go/bin"
 export PATH="${PATH}:/usr/local/go/bin"
 source "${HOME}/.kube-completion"
-export DIGITALOCEAN_TOKEN="69650bf55cbf2072ae48e5110613ebb8b2e2f155dd2e61fbb9a27292bc744c88"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 alias kubectx="kubectl ctx"
 alias kubens="kubectl ns"
 alias k='kubectl'
+
+
+# An untracked file which contains various API tokens etc
+source "${HOME}/.tokens"
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}
 
