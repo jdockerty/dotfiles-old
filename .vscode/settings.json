@@ -15,4 +15,5 @@
         ]
     },
     "files.autoSave": "afterDelay",
+    "files.saveConflictResolution": "overwriteFileOnDisk",
 }
