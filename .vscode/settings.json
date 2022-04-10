@@ -1,10 +1,18 @@
 {
+    "workbench.colorTheme": "Dracula At Night",
+    "workbench.startupEditor": "none",
+    "emeraldwalk.runonsave": {
+        "autoClearConsole": true,
+        "commands": [
+            {
+                "match": "\\.go$",
+                "cmd": "go fmt ${file}"
+            },
+            {
+                "match": "\\.go$",
+                "cmd": "goimports -w ${file}"
+            }
+        ]
+    },
     "files.autoSave": "afterDelay",
-    "go.formatTool": "goimports",
-    "go.autocompleteUnimportedPackages": true,
-    "go.useLanguageServer": true,
-    "window.zoomLevel": -1,
-    "editor.tabCompletion": "on",
-    "workbench.colorTheme": "Material Theme Ocean High Contrast",
-    "workbench.iconTheme": "material-icon-theme"
 }
