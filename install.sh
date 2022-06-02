@@ -40,8 +40,6 @@ fi
 echo "Installing plugins"
 vim +PlugInstall +qall # +qall exits out of the windows after installation
 
-# Maybe symlink this?
-#cp $THIS_DIR/.config/nvim/init.vim ${HOME}/.config/nvim/init.vim
 
 if [ ! -d "${HOME}/.config/nvim" ]
 then
@@ -51,6 +49,7 @@ else
 	echo "'${HOME}/.config/nvim' directory exists"
 fi
 
+# Using a symlink means we can update here and have it also change in the proper directory, whilst being version controlled to push later.
 ln -s -f "$THIS_DIR/.config/nvim/init.vim" "${HOME}/.config/nvim/init.vim"
 
 echo "Symbolic link between init.vim here and within ${HOME}/.config/nvim/init.vim"
