@@ -107,6 +107,7 @@ alias kubectx="kubectl ctx"
 alias kubens="kubectl ns"
 alias k='kubectl'
 
+alias vim='nvim'
 
 # An untracked file which contains various API tokens etc
 source "${HOME}/.tokens"

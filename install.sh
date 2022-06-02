@@ -49,7 +49,8 @@ else
 	echo "'${HOME}/.config/nvim' directory exists"
 fi
 
+echo "Creating symlinks"
+
 # Using a symlink means we can update here and have it also change in the proper directory, whilst being version controlled to push later.
 ln -s -f "$THIS_DIR/.config/nvim/init.vim" "${HOME}/.config/nvim/init.vim"
-
-echo "Symbolic link between init.vim here and within ${HOME}/.config/nvim/init.vim"
+ln -s -f "$THIS_DIR/.zshrc" "${HOME}/.zshrc"
