@@ -23,9 +23,12 @@ set completeopt=menu,menuone,noselect
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'darrikonn/vim-gofmt', { 'do': ':GoUpdateBinaries' }
+
 Plug 'jiangmiao/auto-pairs'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-lua/plenary.nvim' " Dependency for telescope, this also requires ripgrep (rg) to be installed too
+Plug 'ThePrimeagen/harpoon'
 Plug 'gruvbox-community/gruvbox'
 
 " Language Server configuration
@@ -38,7 +41,11 @@ Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 
+Plug 'mbbill/undotree'
+Plug 'tpope/vim-fugitive'
 
+Plug 'vim-airline/vim-airline'
+Plug 'airblade/vim-gitgutter'
 call plug#end()
 
 lua <<EOT
@@ -133,6 +140,7 @@ EOT
 
 colorscheme gruvbox
 
+
 " Set our leader key to spacebar
 let mapleader = " "
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Search for: ")})<CR>
@@ -140,9 +148,22 @@ nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim
 " Language Info, press 'i' to install in the shown list.
 nnoremap <leader>li :LspInstallInfo<CR>
 
-" Source current file, used when editing init.vim
-nnoremap <leader>so :source %<CR>
+" Save/Source current file, used when editing init.vim
+nnoremap <leader>so :w <CR> :source %<CR>
 
+nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
+nnoremap <silent><leader>t :lua require("harpoon.ui").toggle_quick_menu()<CR>
+
+nnoremap <silent><leader>ay :lua require("harpoon.ui").nav_file(1)<CR>
+nnoremap <silent><leader>au :lua require("harpoon.ui").nav_file(2)<CR>
+nnoremap <silent><leader>ai :lua require("harpoon.ui").nav_file(3)<CR>
+nnoremap <silent><leader>ao :lua require("harpoon.ui").nav_file(4)<CR>
+
+" Toggle the undo tree on/off
+nnoremap <silent><leader>u :UndotreeToggle<CR> :UndotreeFocus <CR>
+
+" Save
+nnoremap <leader>ss :write <CR>
 
 fun! TrimWhiteSpace()
     let l:save = winsaveview()
@@ -153,6 +174,8 @@ endfun
 augroup MY_AUTO_GROUP
     autocmd!
     autocmd BufWritePre * :call TrimWhiteSpace()
+    autocmd BufWritePre *.go  :GoFmt
+    autocmd BufWritePre *.go  :GoImports
 augroup END
 
 
