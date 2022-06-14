@@ -31,6 +31,9 @@ Plug 'nvim-lua/plenary.nvim' " Dependency for telescope, this also requires ripg
 Plug 'ThePrimeagen/harpoon'
 Plug 'gruvbox-community/gruvbox'
 
+" Syntax/highlighting
+Plug 'hashivim/vim-terraform'
+
 " Language Server configuration
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
@@ -42,7 +45,7 @@ Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/vim-vsnip'
 
 Plug 'mbbill/undotree'
-Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive' " Git
 
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
@@ -140,10 +143,16 @@ EOT
 
 colorscheme gruvbox
 
+let g:terraform_fmt_on_save = 1
 
 " Set our leader key to spacebar
 let mapleader = " "
+
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Search for: ")})<CR>
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 " Language Info, press 'i' to install in the shown list.
 nnoremap <leader>li :LspInstallInfo<CR>
