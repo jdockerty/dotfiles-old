@@ -130,15 +130,39 @@ require("nvim-lsp-installer").setup {
     })
   })
 
-  -- Setup lspconfig.
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+
+  -- Mappings.
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
+  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
+  vim.keymap.set('n', 'gd', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>cn', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+
+
+end
+
+-- Setup lspconfig.
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
   local lspconfig = require('lspconfig')
 
+
   -- Language servers
-  lspconfig.gopls.setup{}
-  lspconfig.terraformls.setup{}
-  lspconfig.jsonnet_ls.setup{}
-  lspconfig.pylsp.setup{}
+  local servers = {'gopls', 'terraformls', 'jsonnet_ls', 'pylsp'}
+
+  for _, lsp in pairs(servers) do
+      lspconfig[lsp].setup{
+        on_attach = on_attach
+      }
+
+  end
 EOT
 
 colorscheme gruvbox
@@ -149,10 +173,13 @@ let g:terraform_fmt_on_save = 1
 let mapleader = " "
 
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Search for: ")})<CR>
-nnoremap <leader>ff <cmd>Telescope find_files<cr>
-nnoremap <leader>fg <cmd>Telescope live_grep<cr>
-nnoremap <leader>fb <cmd>Telescope buffers<cr>
-nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+" Telescope mappings
+nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+
 
 " Language Info, press 'i' to install in the shown list.
 nnoremap <leader>li :LspInstallInfo<CR>
@@ -173,6 +200,8 @@ nnoremap <silent><leader>u :UndotreeToggle<CR> :UndotreeFocus <CR>
 
 " Save
 nnoremap <leader>ss :write <CR>
+
+nnoremap <leader>q :wq <CR>
 
 fun! TrimWhiteSpace()
     let l:save = winsaveview()

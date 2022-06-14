@@ -79,12 +79,6 @@ source $ZSH/oh-my-zsh.sh
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -109,6 +103,13 @@ alias k='kubectl'
 
 alias vim='nvim'
 
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='vim'
+fi
+
 # An untracked file which contains various API tokens etc
 source "${HOME}/.tokens"
 
@@ -118,3 +119,6 @@ function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;
 # Replaces Ctrl + R for reverse search.
 eval "$(mcfly init zsh)"
 eval "$(starship init zsh)"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/bin/vault vault
