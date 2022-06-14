@@ -3,7 +3,6 @@ set shiftwidth=4
 set expandtab
 set smartindent
 
-
 set relativenumber " show line numbers relative to current line
 set number " show current line number
 set hidden
@@ -11,13 +10,15 @@ set noerrorbells
 
 set noswapfile
 set nobackup
+set nowrap
 set undodir=~/.vim/undodir
 set undofile
 set incsearch " incremental search
 
 set scrolloff=8 " Start scrolling 8 lines away from top/bottom
 
-set signcolumn=yes " extra column for linting, git, lsp etc.
+set colorcolumn=80 " 80 characters in, there is a line which is a guide for too much indenting.
+set signcolumn=yes:1 " extra column for linting, git, lsp etc.
 
 set completeopt=menu,menuone,noselect
 
@@ -49,10 +50,33 @@ Plug 'tpope/vim-fugitive' " Git
 
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
+
+Plug 'Pocco81/AutoSave.nvim'
+
+
 call plug#end()
 
 lua <<EOT
 
+local autosave = require("autosave")
+
+autosave.setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filename_is_not = {},
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = false,
+        on_off_commands = true,
+        clean_command_line_interval = 0,
+        debounce_delay = 135
+    }
+)
 
 require("nvim-lsp-installer").setup {
     automatic_installation = true -- detect servers to install based on
@@ -185,7 +209,10 @@ nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 nnoremap <leader>li :LspInstallInfo<CR>
 
 " Save/Source current file, used when editing init.vim
-nnoremap <leader>so :w <CR> :source %<CR>
+nnoremap <silent><leader>so :w <CR> :source %<CR>
+
+
+
 
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent><leader>t :lua require("harpoon.ui").toggle_quick_menu()<CR>
@@ -202,6 +229,7 @@ nnoremap <silent><leader>u :UndotreeToggle<CR> :UndotreeFocus <CR>
 nnoremap <leader>ss :write <CR>
 
 nnoremap <leader>q :wq <CR>
+
 
 fun! TrimWhiteSpace()
     let l:save = winsaveview()
