@@ -14,6 +14,8 @@ set nowrap
 set undodir=~/.vim/undodir
 set undofile
 set incsearch " incremental search
+set nohlsearch " don't highlight search results
+set clipboard+=unnamedplus
 
 set scrolloff=8 " Start scrolling 8 lines away from top/bottom
 
@@ -211,8 +213,12 @@ nnoremap <leader>li :LspInstallInfo<CR>
 " Save/Source current file, used when editing init.vim
 nnoremap <silent><leader>so :w <CR> :source %<CR>
 
+nnoremap <leader>y "+y
+vnoremap <leader>y "+y
+nmap <leader>Y "+Y
 
-
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
 
 nnoremap <silent><leader>a :lua require("harpoon.mark").add_file()<CR>
 nnoremap <silent><leader>t :lua require("harpoon.ui").toggle_quick_menu()<CR>
