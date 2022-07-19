@@ -2,11 +2,14 @@
 # add_newline = false
 
 format = """
-[╭─accounts─➜❯>](bold blue) $username$gcloud$aws$kubernetes
+[╭─accounts─➜❯>](bold yellow) $username$gcloud$aws$kubernetes
 [┣─system───➜❯>](bold yellow) $time$status$cmd_duration$hostname$memory_usage$jobs
 [┣─project──➜❯>](bold red) $directory$rust$package$git_branch$git_status$golang$terraform$docker_context
-[╰─cmd─➜❯>](bold green) 
+[╰─cmd─➜❯>](bold green)
 """
+
+# Max 1 second for commands to execute via starship
+command_timeout = 1000
 
 # Replace the "❯" symbol in the prompt with "➜"
 [character]                            # The name of the module we are configuring is "character"
