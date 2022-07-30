@@ -46,6 +46,7 @@ Plug 'gruvbox-community/gruvbox'
 
 " Syntax/highlighting
 Plug 'hashivim/vim-terraform'
+Plug 'google/vim-jsonnet'
 
 " Language Server configuration
 Plug 'neovim/nvim-lspconfig'
@@ -155,6 +156,8 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
+" Reload file easily, useful when using git and files are changing
+nnoremap <silent><leader>r <cmd>checktime<cr>
 
 " Language Info, press 'i' to install in the shown list.
 nnoremap <leader>li :LspInstallInfo<CR>
