@@ -147,7 +147,7 @@ let g:terraform_fmt_on_save = 1
 let mapleader = " "
 
 nnoremap <leader>ps :lua require('telescope.builtin').grep_string({ search = vim.fn.input("Search for: ")})<CR>
-
+nnoremap <leader>pv <cmd>Explore<cr>
 " Telescope mappings
 nnoremap <leader>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 
