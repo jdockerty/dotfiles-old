@@ -92,9 +92,13 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH="${PATH}:$HOME/go/bin"
 export PATH="${PATH}:/usr/local/go/bin"
+export PATH="${PATH}:$HOME/go/bin"
+export PATH="${PATH}:${HOME}/bin"
+export PATH=$PATH:${HOME}/.linkerd2/bin
 source "${HOME}/.kube-completion"
+source "${HOME}/.confluent-completion"
+source "${HOME}/.k3d-completion"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 alias kubectx="kubectl ctx"
@@ -116,13 +120,11 @@ source "${HOME}/.tokens"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 function gi() { curl -sLw n https://www.toptal.com/developers/gitignore/api/$@ ;}
 
-# Replaces Ctrl + R for reverse search.
-eval "$(mcfly init zsh)"
-eval "$(starship init zsh)"
-
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/bin/vault vault
 
 if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
   exec tmux new-session -A -s main
 fi
+
+eval "$(starship init zsh)"

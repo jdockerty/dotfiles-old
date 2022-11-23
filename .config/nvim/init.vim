@@ -44,6 +44,9 @@ Plug 'nvim-lua/plenary.nvim' " Dependency for telescope, this also requires ripg
 Plug 'ThePrimeagen/harpoon'
 Plug 'gruvbox-community/gruvbox'
 
+
+Plug 'Vimjas/vim-python-pep8-indent'
+
 " Syntax/highlighting
 Plug 'hashivim/vim-terraform'
 Plug 'google/vim-jsonnet'
@@ -164,6 +167,9 @@ nnoremap <leader>li :LspInstallInfo<CR>
 
 " Save/Source current file, used when editing init.vim
 nnoremap <silent><leader>so :w <CR> :source %<CR>
+
+" Clear buffers, except the current one. The pipe must be escaped using '\'.
+nnoremap <silent><leader>bd :%bd\|e#<CR>
 
 nnoremap <leader>y "+y
 vnoremap <leader>y "+y
