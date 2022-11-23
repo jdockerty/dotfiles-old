@@ -95,10 +95,13 @@ source $ZSH/oh-my-zsh.sh
 export PATH="${PATH}:/usr/local/go/bin"
 export PATH="${PATH}:$HOME/go/bin"
 export PATH="${PATH}:${HOME}/bin"
-export PATH=$PATH:${HOME}/.linkerd2/bin
+export PATH="${PATH}:${HOME}/.linkerd2/bin"
+export PATH="${PATH}:$HOME/go/bin"
+
 source "${HOME}/.kube-completion"
 source "${HOME}/.confluent-completion"
 source "${HOME}/.k3d-completion"
+source "${HOME}/.istioctl-completion"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 alias kubectx="kubectl ctx"

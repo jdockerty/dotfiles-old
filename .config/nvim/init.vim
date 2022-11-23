@@ -159,6 +159,7 @@ nnoremap <leader>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <leader>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <leader>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
 
+
 " Reload file easily, useful when using git and files are changing
 nnoremap <silent><leader>r <cmd>checktime<cr>
 
@@ -245,18 +246,5 @@ endfunction
 
 
 " coc.nvim config end
-"
-fun! TrimWhiteSpace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfun
-
-augroup MY_AUTO_GROUP
-    autocmd!
-    autocmd BufWritePre * :call TrimWhiteSpace()
-    autocmd BufWritePre *.go  :GoFmt
-    autocmd BufWritePre *.go  :GoImports
-augroup END
 
 
