@@ -92,9 +92,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-export PATH="${PATH}:$HOME/go/bin"
 export PATH="${PATH}:/usr/local/go/bin"
+export PATH="${PATH}:$HOME/go/bin"
 source "${HOME}/.kube-completion"
+source "${HOME}/.istioctl-completion"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 alias kubectx="kubectl ctx"
