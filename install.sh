@@ -8,7 +8,7 @@ function goHome {
 THIS_DIR=$(pwd)
 
 # Install powerline fonts
-goHome 
+goHome
 git clone https://github.com/powerline/fonts
 cd fonts
 ./install.sh # Install powerline fonts script
@@ -20,7 +20,7 @@ git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:
 
 # Neovim installation
 echo "Checking for 'neovim'"
-if [! command -v nvim &> /dev/null && $EUID != 0]; 
+if [! command -v nvim &> /dev/null && $EUID != 0];
 then
 	echo "neovim does not exist, installing"
 	sudo dnf install neovim # I'm using Fedora currently, we can optimise this later for different OS' or grabbing the binary from GitHub
@@ -48,6 +48,9 @@ then
 else
 	echo "'${HOME}/.config/nvim' directory exists"
 fi
+
+echo "Installing tmux plugin manager (tpm)"
+git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 
 echo "Creating symlinks"
 
