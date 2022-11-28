@@ -61,11 +61,14 @@ Plug 'tpope/vim-fugitive' " Git
 Plug 'vim-airline/vim-airline'
 Plug 'airblade/vim-gitgutter'
 
-Plug 'Pocco81/AutoSave.nvim'
-
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'akinsho/git-conflict.nvim'
+" Snippets
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
 " Dependency on g++ too.
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -73,30 +76,52 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 call plug#end()
 
-lua <<EOT
+lua <<EOF
 
-require('git-conflict').setup{}
+  function go_org_imports(wait_ms)
+    local params = vim.lsp.util.make_range_params()
+    params.context = {only = {"source.organizeImports"}}
+    local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, wait_ms)
+    for cid, res in pairs(result or {}) do
+      for _, r in pairs(res.result or {}) do
+        if r.edit then
+          local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
+          vim.lsp.util.apply_workspace_edit(r.edit, enc)
+        end
+      end
+    end
+  end
 
+  -- Set up nvim-cmp.
+  local cmp = require'cmp'
 
-local autosave = require("autosave")
+  cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+      end,
+    },
+    window = {
+      --completion = cmp.config.window.bordered(),
+      --documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    }),
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'vsnip' }, 
+    }, {
+      { name = 'buffer' },
+    })
+  })
 
-autosave.setup(
-    {
-        enabled = true,
-        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-        events = {"InsertLeave", "TextChanged"},
-        conditions = {
-            exists = true,
-            filename_is_not = {},
-            filetype_is_not = {},
-            modifiable = true
-        },
-        write_all_buffers = false,
-        on_off_commands = true,
-        clean_command_line_interval = 0,
-        debounce_delay = 135
-    }
-)
+    -- Set up lspconfig.
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require("nvim-lsp-installer").setup {
     automatic_installation = true -- detect servers to install based on
@@ -106,33 +131,49 @@ require("nvim-lsp-installer").setup {
 
 
 -- Setup lspconfig.
-  local lspconfig = require('lspconfig')
+  lspconfig = require "lspconfig"
 
 
   -- Language servers
-  local servers = {'gopls', 'terraformls', 'jsonnet_ls', 'pyright', 'golangci_lint_ls'}
 
+  lspconfig.rust_analyzer.setup{
+    capabilities = capabilities,
+  }
 
-  lspconfig.gopls.setup{
-    on_attach = on_attach,
-    cmd = {"gopls", "serve"}
+  util = require "lspconfig/util"
+
+  lspconfig.gopls.setup {
+    capabilities = capabilities,
+    cmd = {"gopls", "serve"},
+    filetypes = {"go", "gomod"},
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+      gopls = {
+        analyses = {
+          unusedparams = true,
+        },
+        staticcheck = true,
+      },
+    },
   }
 
   lspconfig.terraformls.setup{
-    on_attach = on_attach
+    on_attach = on_attach,
+    capabilities = capabilities,
   }
 
   lspconfig.jsonnet_ls.setup{
-    on_attach = on_attach
+    on_attach = on_attach,
+    capabilities = capabilities,
   }
 
   lspconfig.pyright.setup{
-    on_attach = on_attach
+    on_attach = on_attach,
+    capabilities = capabilities,
   }
 
-  lspconfig.golangci_lint_ls.setup{
-    on_attach = on_attach
-  }
+
+
 
 
 require('nvim-treesitter.configs').setup{
@@ -141,11 +182,12 @@ highlight = {
     }
 }
 
-EOT
+EOF
 
 colorscheme gruvbox
 
 let g:terraform_fmt_on_save = 1
+autocmd BufWritePre *.go lua go_org_imports()
 
 " Set our leader key to spacebar
 let mapleader = " "
@@ -196,55 +238,5 @@ nnoremap <leader>ss :write <CR>
 nnoremap <leader>q :wq <CR>
 
 
-" coc.nvim config
-
-
-"Make <CR> auto-select the first completion item and notify coc.nvim to
-" format on enter, <cr> could be remapped by other vim plugin
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" GoTo code navigation.
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-
-" Use K to show documentation in preview window.
-nnoremap <silent> K :call ShowDocumentation()<CR>
-
-
-function! ShowDocumentation()
-  if CocAction('hasProvider', 'hover')
-    call CocActionAsync('doHover')
-  else
-    call feedkeys('K', 'in')
-  endif
-endfunction
-
-" Highlight the symbol and its references when holding the cursor.
-autocmd CursorHold * silent call CocActionAsync('highlight')
-
-" Symbol renaming.
-nmap <leader>rn <Plug>(coc-rename)
-
-" Formatting selected code.
-xmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>f  <Plug>(coc-format-selected)
-
-" Use tab for trigger completion with characters ahead and navigate.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ CheckBackspace() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! CheckBackspace() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-
-" coc.nvim config end
 
 
