@@ -1,1 +1,3 @@
-/home/influx/work/dotfiles/.config/nvim/init.lua
+require("config.opts")
+require("config.remap")
+
