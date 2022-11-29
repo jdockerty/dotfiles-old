@@ -55,5 +55,5 @@ git clone https://github.com/tmux-plugins/tpm ${HOME}/.tmux/plugins/tpm
 echo "Creating symlinks"
 
 # Using a symlink means we can update here and have it also change in the proper directory, whilst being version controlled to push later.
-ln -s -f "$THIS_DIR/.config/nvim/init.vim" "${HOME}/.config/nvim/init.vim"
+ln -s -f "$THIS_DIR/.config/nvim/init.lua" "${HOME}/.config/nvim/init.lua"
 ln -s -f "$THIS_DIR/.zshrc" "${HOME}/.zshrc"
