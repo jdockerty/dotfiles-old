@@ -1,0 +1,1 @@
+/home/influx/work/dotfiles/.config/nvim/init.lua
